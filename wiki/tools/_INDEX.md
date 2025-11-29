@@ -3,4 +3,4 @@
 Documentation des outils utilisés.
 
 ## Outils
-(Aucun outil documenté pour l'instant)
+- [[second-brain]] : Système de mémoire persistante (Mem0 + Obsidian)

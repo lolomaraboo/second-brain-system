@@ -3,4 +3,4 @@
 Idées et brainstorming.
 
 ## Idées
-(Aucune idée documentée pour l'instant)
+- [[xo-cortex]] : Application Second Brain multi-plateforme (web, mobile, desktop, extension)

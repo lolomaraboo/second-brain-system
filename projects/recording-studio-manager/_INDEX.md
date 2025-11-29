@@ -6,5 +6,5 @@ Application SaaS de gestion de studio d'enregistrement.
 - decisions/ : Décisions architecturales
 
 ## Liens
-- Repo: ~/Documents/APP_HOME/CascadeProjects/windsurf-project/ClaudeCodeChampion/projects/recording-studio-manager
+- Repo: ~/Documents/APP_HOME/CascadeProjects/windsurf-project/recording-studio-manager
 - Prod: https://recording-studio-manager.com
