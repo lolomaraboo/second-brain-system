@@ -1,0 +1,19 @@
+# Runtime directories (temporary data, do not version)
+debug/
+file-history/
+session-env/
+sessions/
+shell-snapshots/
+statsig/
+todos/
+plans/
+projects/
+metrics/
+
+# Temporary files
+history.jsonl
+.todowrite-init
+.DS_Store
+
+# Local settings (machine-specific)
+settings.local.json

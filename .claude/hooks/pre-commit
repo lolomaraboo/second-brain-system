@@ -1,0 +1,144 @@
+#!/bin/bash
+
+# pre-commit hook anti-drift
+# Vérifie la cohérence de la documentation avant chaque commit
+
+set -e
+
+# Couleurs
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+NC='\033[0m' # No Color
+
+APP_HOME="$(git rev-parse --show-toplevel)"
+ERRORS=0
+
+echo "🔍 Vérification anti-drift..."
+
+# Fonction pour compter occurrences
+count_pattern() {
+    local file="$1"
+    local pattern="$2"
+    grep -c "$pattern" "$file" 2>/dev/null || echo "0"
+}
+
+# 1. Vérifier agent count cohérent (6/7)
+echo -n "   Checking agent count... "
+CLAUDE_MD_COUNT=$(count_pattern "$APP_HOME/CLAUDE.md" "Agents actuels: 6/7")
+PROJECT_INDEX_COUNT=$(count_pattern "$APP_HOME/PROJECT-INDEX.md" "6/7")
+AGENTS_CLAUDE_COUNT=$(count_pattern "$APP_HOME/projects/claude-code-agents/CLAUDE.md" "6/7")
+
+if [ "$CLAUDE_MD_COUNT" -eq 0 ] || [ "$PROJECT_INDEX_COUNT" -eq 0 ] || [ "$AGENTS_CLAUDE_COUNT" -eq 0 ]; then
+    echo -e "${RED}✗${NC}"
+    echo -e "   ${RED}ERROR: Agent count drift detected!${NC}"
+    echo "   Expected: 6/7 in all files"
+    echo "   Found in CLAUDE.md: $CLAUDE_MD_COUNT occurrences"
+    echo "   Found in PROJECT-INDEX.md: $PROJECT_INDEX_COUNT occurrences"
+    echo "   Found in claude-code-agents/CLAUDE.md: $AGENTS_CLAUDE_COUNT occurrences"
+    ERRORS=$((ERRORS + 1))
+else
+    echo -e "${GREEN}✓${NC}"
+fi
+
+# 2. Vérifier core tools count (16)
+echo -n "   Checking core tools count... "
+ACTUAL_TOOLS=$(ls -1 "$APP_HOME/core/bin/" 2>/dev/null | wc -l | tr -d ' ')
+DOCUMENTED_COUNT=$(count_pattern "$APP_HOME/PROJECT-INDEX.md" "16 scripts")
+
+if [ "$ACTUAL_TOOLS" -ne 16 ] || [ "$DOCUMENTED_COUNT" -eq 0 ]; then
+    echo -e "${RED}✗${NC}"
+    echo -e "   ${RED}ERROR: Core tools count drift detected!${NC}"
+    echo "   Actual tools in core/bin/: $ACTUAL_TOOLS"
+    echo "   Expected in documentation: 16"
+    echo "   Documented count mentions: $DOCUMENTED_COUNT"
+    ERRORS=$((ERRORS + 1))
+else
+    echo -e "${GREEN}✓${NC}"
+fi
+
+# 3. Vérifier que sync-context.sh est marqué obsolète
+echo -n "   Checking sync-context.sh obsolete marking... "
+OBSOLETE_COUNT=$(grep -r "sync-context.sh.*obsolète\|sync-context.sh.*OBSOLÈTE" "$APP_HOME" --include="*.md" 2>/dev/null | wc -l | tr -d ' ')
+
+if [ "$OBSOLETE_COUNT" -lt 2 ]; then
+    echo -e "${YELLOW}⚠${NC}"
+    echo -e "   ${YELLOW}WARNING: sync-context.sh should be marked obsolete in documentation${NC}"
+    echo "   Found $OBSOLETE_COUNT mentions"
+    # Not a blocker, just a warning
+else
+    echo -e "${GREEN}✓${NC}"
+fi
+
+# 4. Vérifier que les symlinks existent
+echo -n "   Checking symlinks exist... "
+SYMLINKS_OK=1
+for file in agents.md gemini.md opencode.md bin; do
+    if [ ! -L "$APP_HOME/$file" ]; then
+        if [ "$SYMLINKS_OK" -eq 1 ]; then
+            echo -e "${RED}✗${NC}"
+            SYMLINKS_OK=0
+        fi
+        echo -e "   ${RED}ERROR: $file is not a symlink!${NC}"
+        ERRORS=$((ERRORS + 1))
+    fi
+done
+if [ "$SYMLINKS_OK" -eq 1 ]; then
+    echo -e "${GREEN}✓${NC}"
+fi
+
+# 5. Vérifier que PROJECT-INDEX.md existe et n'est pas vide
+echo -n "   Checking PROJECT-INDEX.md... "
+if [ ! -f "$APP_HOME/PROJECT-INDEX.md" ]; then
+    echo -e "${RED}✗${NC}"
+    echo -e "   ${RED}ERROR: PROJECT-INDEX.md not found!${NC}"
+    ERRORS=$((ERRORS + 1))
+elif [ ! -s "$APP_HOME/PROJECT-INDEX.md" ]; then
+    echo -e "${RED}✗${NC}"
+    echo -e "   ${RED}ERROR: PROJECT-INDEX.md is empty!${NC}"
+    ERRORS=$((ERRORS + 1))
+else
+    echo -e "${GREEN}✓${NC}"
+fi
+
+# 6. Vérifier que CHANGELOG.md suit le format Keep a Changelog
+echo -n "   Checking CHANGELOG.md format... "
+if ! grep -q "### Added\|### Changed\|### Fixed\|### Removed" "$APP_HOME/CHANGELOG.md" 2>/dev/null; then
+    echo -e "${YELLOW}⚠${NC}"
+    echo -e "   ${YELLOW}WARNING: CHANGELOG.md may not follow Keep a Changelog format${NC}"
+else
+    echo -e "${GREEN}✓${NC}"
+fi
+
+# 7. Vérifier doublons dans TODO.md (si modifié)
+if git diff --cached --name-only | grep -q "TODO.md"; then
+    echo -n "   Checking TODO.md duplicates... "
+    if [ -x "$APP_HOME/projects/todo-manager/bin/check-duplicates" ]; then
+        if "$APP_HOME/projects/todo-manager/bin/check-duplicates" > /dev/null 2>&1; then
+            echo -e "${GREEN}✓${NC}"
+        else
+            echo -e "${RED}✗${NC}"
+            echo -e "   ${RED}ERROR: Duplicate todos detected in TODO.md!${NC}"
+            echo ""
+            "$APP_HOME/projects/todo-manager/bin/check-duplicates"
+            echo ""
+            ERRORS=$((ERRORS + 1))
+        fi
+    else
+        echo -e "${YELLOW}⚠${NC}"
+        echo -e "   ${YELLOW}WARNING: check-duplicates script not found or not executable${NC}"
+    fi
+fi
+
+# Résultat final
+echo ""
+if [ $ERRORS -gt 0 ]; then
+    echo -e "${RED}❌ Pre-commit check FAILED with $ERRORS error(s)${NC}"
+    echo ""
+    echo "Fix the errors above before committing."
+    echo "Or use 'git commit --no-verify' to bypass (NOT RECOMMENDED)"
+    exit 1
+else
+    echo -e "${GREEN}✅ All pre-commit checks passed!${NC}"
+    exit 0
+fi
