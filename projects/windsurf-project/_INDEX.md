@@ -29,9 +29,9 @@ Le repo parent les ignore via `.gitignore`.
 
 Voir [[multi-repo-structure]] pour le pattern.
 
-## Fichiers
+## Décisions
 
-- Aucune décision documentée pour l'instant
+- [[decisions/2025-11-29-file-locking]] - File locking pour queue Mem0 multi-instances (2025-11-29)
 
 ## Liens
 
