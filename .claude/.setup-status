@@ -1,0 +1,7 @@
+# Claude Code Setup Status
+# Ce fichier mémorise l'état du setup sur chaque machine
+# Format: hostname|username|date|version
+
+# Machines configurées:
+studiomaraboo.local|studiomaraboo|2025-11-03|1.0
+Marabook-M1.local|marabook_m1|2025-11-03|1.0

@@ -8,15 +8,21 @@ statsig/
 todos/
 plans/
 projects/
-metrics/
+ide/
+logs/
+
+# Metrics runtime data (keep docs)
+metrics/*.json
+
+# Sync runtime
+.backups/
+.sync.lock
+.last-sync
 
 # Temporary files
 history.jsonl
-.todowrite-init
 .DS_Store
-.last-sync
-mem0_queue.json
-mem0_queue.tmp
+mem0_queue*.json
 
 # Local settings (machine-specific)
 settings.local.json
