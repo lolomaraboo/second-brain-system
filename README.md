@@ -49,14 +49,20 @@ SecondBrain/
 
 **Composants :**
 - Queue locale : `~/.claude/mem0_queue.json`
+- Lock file : `~/.claude/mem0_queue.lock` (file locking)
 - Worker : `~/scripts/mem0_queue_worker.py`
 - Cron : Exécution automatique toutes les 10 minutes
 - Logs : `~/.claude/logs/mem0_worker.log`
 
 **Fonctionnement :**
-1. `mem0_save` → Écriture immédiate dans queue locale
-2. Worker cron → Synchronisation VPS toutes les 10 minutes
+1. `mem0_save` → Écriture immédiate dans queue locale (avec lock)
+2. Worker cron → Synchronisation VPS toutes les 10 minutes (avec lock)
 3. Délai max : 10 minutes entre sauvegarde et sync VPS
+
+**Sécurité multi-instances :**
+- File locking (`fcntl`) empêche les race conditions
+- Timeout de 5 secondes pour éviter blocages infinis
+- ✅ **Safe pour 2+ instances Claude Code en parallèle**
 
 **Commandes :**
 ```bash
