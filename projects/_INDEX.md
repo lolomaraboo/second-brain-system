@@ -14,13 +14,7 @@ windsurf-project/
 
 ## Projets
 
-- **recording-studio-manager/** : Application SaaS de gestion de studio d'enregistrement
-  - Repo: `~/Documents/APP_HOME/CascadeProjects/windsurf-project/recording-studio-manager`
-  - GitHub: `lolomaraboo/recording-studio-manager`
-
-- **claude-code-champion/** : Framework v4.0 - CLI, Protocols, Agents, Hooks
-  - Assets: 26 commandes CLI, 6 protocols, brutal-critic agent
-  - Status: Préservé pour réutilisation future
-
-- **second-brain/** : Documentation du système Second Brain lui-même
-  - Architecture: Mem0 + Obsidian
+- [[windsurf-project/_INDEX|windsurf-project]] : Workspace parent multi-repos
+- [[recording-studio-manager/_INDEX|recording-studio-manager]] : Application SaaS de gestion de studio
+- [[claude-code-champion-v4/_INDEX|claude-code-champion-v4]] : Framework Claude Code v4.0
+- [[second-brain/_INDEX|second-brain]] : Documentation du système Second Brain

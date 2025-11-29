@@ -3,4 +3,5 @@
 Patterns de code et best practices réutilisables.
 
 ## Patterns
-(Aucun pattern documenté pour l'instant)
+
+- [[multi-repo-structure]] : Organiser plusieurs repos git dans un workspace
