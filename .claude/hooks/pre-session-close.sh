@@ -21,4 +21,11 @@ echo -e "Si tu n'as pas encore sauvegardé, tape ${GREEN}/end${NC}"
 echo -e "ou dis à Claude: ${GREEN}\"Sauvegarde le contexte\"${NC}"
 echo ""
 
+# Solution 2A: Process Mem0 queue before closing
+if [ -f ~/scripts/mem0_queue_worker.py ]; then
+    echo -e "${BLUE}📤 Synchronisation queue Mem0...${NC}"
+    python3 ~/scripts/mem0_queue_worker.py
+    echo ""
+fi
+
 exit 0

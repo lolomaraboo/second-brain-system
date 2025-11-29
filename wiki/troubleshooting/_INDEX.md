@@ -3,4 +3,6 @@
 Solutions aux problèmes courants.
 
 ## Problèmes résolus
-(Aucun problème documenté pour l'instant)
+
+### Mem0
+- [[mem0-queue-status-bug]] - Bug KeyError 'total_queued' dans mem0_queue_status (2025-11-29)
