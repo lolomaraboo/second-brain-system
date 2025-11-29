@@ -28,12 +28,34 @@ SecondBrain/
 
 ## Règles
 
-### Mem0 - Automatique
+### Mem0 - Sauvegarde automatique
 Sauvegarder sans demander :
 - Décisions techniques importantes
 - Bugs résolus et cause racine
 - Changements d'architecture
 - Configurations spécifiques
+- Après chaque commit/création important
+
+### Mem0 - Consultation automatique
+Rechercher avant :
+| Action | Rechercher |
+|--------|------------|
+| Write (nouveau fichier) | Existe déjà ? Pattern ? |
+| Edit (fichier critique) | Bugs connus ? |
+| git commit | Conventions ? |
+| GitHub create | Existe déjà ? |
+
+Rechercher quand :
+| Situation | Action |
+|-----------|--------|
+| Début session | `mem0_recall` |
+| Bug rencontré | Solutions connues ? |
+| Choix architecture | Décisions passées ? |
+
+Mots-clés déclencheurs :
+- "comme avant" → chercher pattern
+- "rappelle-toi" → `mem0_search`
+- "bug", "erreur" → solutions connues
 
 ### Obsidian - Avec confirmation
 Proposer de documenter après :
