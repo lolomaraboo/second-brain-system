@@ -6,6 +6,7 @@ Solutions aux problèmes courants.
 
 ### Mem0
 - [[mem0-queue-status-bug]] - Bug KeyError 'total_queued' dans mem0_queue_status (2025-11-29)
+- [[mem0-queue-lock-errors]] - Erreurs "queue lock timeout" et procédure de récupération (2025-11-30)
 
 ## Guides
 

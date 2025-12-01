@@ -32,9 +32,13 @@ Système de mémoire persistante pour Claude Code combinant Mem0 et Obsidian.
 - Liens entre notes `[[note]]`
 - Chaque dossier a un `_INDEX.md`
 
+## Décisions
+
+- [[decisions/2025-12-01-start-intelligent]] - /start intelligent avec mode rapide par défaut (2025-12-01)
+
 ## Fichiers
 - Voir [[second-brain|wiki/tools/second-brain]] pour le guide d'utilisation
 
 ## Liens
 - Vault: ~/Documents/APP_HOME/CascadeProjects/windsurf-project/SecondBrain/
-- Config Mem0: ~/.claude/mcp.json
+- Config Mem0: `<workspace>/.mcp.json` (dans le répertoire du projet)

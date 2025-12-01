@@ -2,11 +2,12 @@
 
 ## Commandes slash
 
-| Commande | Description |
-|----------|-------------|
-| `/start` | Charge le contexte (Mem0 + Obsidian _INDEX.md) |
-| `/end` | Sauvegarde le contexte de fin de session |
-| `/wiki [note]` | Ajoute une note au wiki Obsidian |
+| Commande | Description | Vitesse | Use Case |
+|----------|-------------|---------|----------|
+| `/start` | Mode rapide (resume.md) par défaut | <100ms | Quick check-in |
+| `/start --full` | Contexte complet (Mem0 + Obsidian) | 2-5s | Deep dive session |
+| `/end` | Sauvegarde (Mem0 + Obsidian + resume) | 3-10s | Fin de session |
+| `/wiki [note]` | Ajoute note au wiki | 1-2s | Documentation |
 
 ## Structure du vault
 
@@ -70,6 +71,30 @@ Proposer de documenter après :
 - Max 50-100 lignes
 - Noms en kebab-case
 - Toujours maintenir les `_INDEX.md`
+
+## Workflows Recommandés
+
+### Quick Check-In (rapide)
+1. `/start` - Mode rapide automatique (resume.md, <100ms)
+2. Travailler sur le projet
+3. `/end` - Sauvegarder + update resume
+
+### Context Exhaustion Recovery
+1. `/end` - Sauvegarder tout + générer resume + last-project.txt
+2. `/clear` - Vider le contexte
+3. `/start` - Reprendre automatiquement le dernier projet (mode rapide)
+
+### Deep Dive (complet)
+1. `/start --full` - Charger Mem0 + Obsidian (contexte complet)
+2. Session longue avec décisions importantes
+3. `/end` - Sauvegarder tout + update resume
+
+### Context Switch entre projets
+1. `/start` - Charge dernier projet automatiquement (mode rapide)
+2. Ou `/start [projet-a]` - Charge projet spécifique
+3. Travailler sur le projet
+4. `/end` - Sauvegarde (met à jour last-project.txt)
+5. `/start [projet-b]` - Switch vers autre projet
 
 ## Secrets
 
