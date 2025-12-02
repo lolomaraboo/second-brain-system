@@ -34,6 +34,7 @@ Système de mémoire persistante pour Claude Code combinant Mem0 et Obsidian.
 
 ## Décisions
 
+- [[decisions/2025-12-01-start-command-memory-fix]] - Fix /start : Relecture CLAUDE.md obligatoire pour mémorisation auto (2025-12-01)
 - [[decisions/2025-12-01-start-intelligent]] - /start intelligent avec mode rapide par défaut (2025-12-01)
 
 ## Fichiers

@@ -130,6 +130,62 @@ if git diff --cached --name-only | grep -q "TODO.md"; then
     fi
 fi
 
+# 8. Vérifier documentation synchronisée (CODE-DOC-MAP)
+CODE_DOC_MAP="$APP_HOME/SecondBrain/wiki/CODE-DOC-MAP.md"
+if [ -f "$CODE_DOC_MAP" ]; then
+    echo -n "   Checking code-doc sync... "
+
+    # Fichiers code changés (relatifs au HOME)
+    CHANGED_FILES=$(git diff --cached --name-only)
+    DOC_ERRORS=0
+    MISSING_DOCS=""
+
+    # Pour chaque fichier changé, vérifier s'il est dans CODE-DOC-MAP
+    while IFS= read -r changed_file; do
+        # Convertir en chemin absolu avec ~
+        if [[ "$changed_file" == scripts/* ]]; then
+            code_path="~/scripts/${changed_file#scripts/}"
+        elif [[ "$changed_file" == .claude/commands/* ]]; then
+            code_path="~/.claude/commands/${changed_file#.claude/commands/}"
+        elif [[ "$changed_file" == .claude/hooks/* ]]; then
+            code_path="~/.claude/hooks/${changed_file#.claude/hooks/}"
+        elif [[ "$changed_file" == Documents/APP_HOME/.claude/shell-config/* ]]; then
+            code_path="~/Documents/APP_HOME/.claude/shell-config/${changed_file#Documents/APP_HOME/.claude/shell-config/}"
+        else
+            # Fichier non concerné par CODE-DOC-MAP
+            continue
+        fi
+
+        # Vérifier si ce fichier est dans CODE-DOC-MAP
+        if grep -q "| $code_path |" "$CODE_DOC_MAP" 2>/dev/null; then
+            # Extraire le fichier doc correspondant
+            doc_file=$(grep "| $code_path |" "$CODE_DOC_MAP" | awk -F'|' '{print $3}' | xargs)
+
+            # Convertir chemin doc en chemin git
+            doc_git_path="SecondBrain/wiki/tools/$doc_file"
+
+            # Vérifier si doc aussi modifiée
+            if ! echo "$CHANGED_FILES" | grep -q "$doc_file"; then
+                DOC_ERRORS=$((DOC_ERRORS + 1))
+                MISSING_DOCS="${MISSING_DOCS}\n   - $changed_file → SecondBrain/wiki/tools/$doc_file"
+            fi
+        fi
+    done <<< "$CHANGED_FILES"
+
+    if [ $DOC_ERRORS -gt 0 ]; then
+        echo -e "${RED}✗${NC}"
+        echo -e "   ${RED}ERROR: Code changed but documentation not updated!${NC}"
+        echo -e "${MISSING_DOCS}"
+        echo ""
+        echo "   Fix: Update the corresponding documentation files, or:"
+        echo "   - Add them to the commit: git add SecondBrain/wiki/tools/..."
+        echo "   - Or bypass with: git commit --no-verify (NOT RECOMMENDED)"
+        ERRORS=$((ERRORS + 1))
+    else
+        echo -e "${GREEN}✓${NC}"
+    fi
+fi
+
 # Résultat final
 echo ""
 if [ $ERRORS -gt 0 ]; then

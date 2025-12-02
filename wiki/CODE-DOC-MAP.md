@@ -30,11 +30,14 @@ Table de référence unique: fichier code → documentation Obsidian
 | ~/.claude/hooks/pre-commit | hooks.md | pre-commit | ✅ |
 | ~/Documents/APP_HOME/.claude/shell-config/setup.sh | claude-code-sync.md | Installation | ✅ |
 | ~/Documents/APP_HOME/.claude/shell-config/aliases.sh | claude-code-sync.md | Alias shell | ✅ |
+| ~/scripts/obsidian_session_manager.py | multi-session-protection.md | Session Manager | ✅ |
+| ~/.claude/shell-config/obsidian-session-helpers.sh | multi-session-protection.md | Obsidian Helpers | ✅ |
+| ~/.claude/shell-config/end-lock-helpers.sh | multi-session-protection.md | Lock Helpers | ✅ |
 
 ## Statistiques
 
-- **Total mappings:** 13
-- **Status ✅:** 13 (100%)
+- **Total mappings:** 16
+- **Status ✅:** 16 (100%)
 - **Dernière vérification:** 2025-12-01
 
 ## Ajouter un nouveau mapping

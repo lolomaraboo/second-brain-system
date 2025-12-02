@@ -31,6 +31,7 @@ Voir [[multi-repo-structure]] pour le pattern.
 
 ## Décisions
 
+- [[decisions/2025-12-01-multi-session-protection]] - Protection multi-sessions Claude Code (2025-12-01)
 - [[decisions/2025-11-29-file-locking]] - File locking pour queue Mem0 multi-instances (2025-11-29)
 
 ## Liens
