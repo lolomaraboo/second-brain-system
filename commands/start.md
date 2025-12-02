@@ -52,8 +52,10 @@ Force le chargement complet même si resume existe :
 
 1. **Enregistrer la session** : Utilise `~/scripts/obsidian_session_manager.py register [project_id] [cwd]`
 2. **Vérifier les sessions actives** : Utilise `source ~/.claude/shell-config/obsidian-session-helpers.sh && obsidian_session_check [project_id]`
-3. **Mem0** : Utilise mem0_recall pour charger le contexte de travail
-4. **Obsidian** : Lis les _INDEX.md du projet dans SecondBrain/projects/[projet]/
+3. **Mem0** :
+   - **IMPORTANT**: Convertir le project_id pour Mem0 : remplacer `/` par `--` (ex: `dev/second-brain` → `dev--second-brain`)
+   - Utilise mem0_recall avec le project_id converti pour charger le contexte de travail
+4. **Obsidian** : Lis les _INDEX.md du projet dans SecondBrain/projects/[projet]/ (utilise project_id original avec `/`)
 
 Présente un résumé de :
 - Ce qui a été fait précédemment (Mem0)

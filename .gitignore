@@ -12,3 +12,10 @@ Thumbs.db
 # Temporary
 *.tmp
 *.bak
+
+# Memories (stockage local - ne pas versionner les données)
+memories/*.json
+memories/.backup/
+
+# Logs
+*.log

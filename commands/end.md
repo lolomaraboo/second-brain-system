@@ -18,11 +18,13 @@ Ceci acquiert un lock pour éviter les conflits si 2 sessions font /end simultan
 
 ---
 
-1. **Mem0** : Utilise mem0_save pour sauvegarder le contexte de travail :
-   - Ce qui a été accompli
-   - Les décisions techniques prises
-   - Les problèmes rencontrés et leurs solutions
-   - Les prochaines étapes suggérées
+1. **Mem0** :
+   - **IMPORTANT**: Convertir le project_id pour Mem0 : remplacer `/` par `--` (ex: `dev/second-brain` → `dev--second-brain`)
+   - Utilise mem0_save avec le project_id converti pour sauvegarder le contexte de travail :
+     - Ce qui a été accompli
+     - Les décisions techniques prises
+     - Les problèmes rencontrés et leurs solutions
+     - Les prochaines étapes suggérées
 
 2. **Documentation Review (CODE-DOC-MAP)** : Vérifie la synchronisation code-doc :
    - Lit `SecondBrain/wiki/CODE-DOC-MAP.md` (si existe)
@@ -58,7 +60,7 @@ Ceci acquiert un lock pour éviter les conflits si 2 sessions font /end simultan
    - Si 'n' : demander le nom du projet
 
    **Génération du resume :**
-   - Crée `~/.claude/resumes/[project-id]/` si nécessaire
+   - Crée `~/.claude/resumes/[project-id]/` si nécessaire (utilise `mkdir -p` pour hiérarchie)
    - Génère `~/.claude/resumes/[project-id]/resume.md` (20-30 lignes)
    - **Écrit `~/.claude/last-project.txt`** avec le project_id (1 ligne)
 
