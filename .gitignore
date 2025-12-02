@@ -17,5 +17,9 @@ Thumbs.db
 memories/*.json
 memories/.backup/
 
+# Exceptions: rapports de migration (documentation)
+!memories/merge-report.json
+!memories/comparison-report.json
+
 # Logs
 *.log

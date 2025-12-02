@@ -1,0 +1,28 @@
+{
+  "merge_date": "2025-12-02T02:12:33.066767",
+  "backup_source": "/Users/marabook_m1/.claude/mem0-backup-20251201-182741.json",
+  "total_before": 1487,
+  "total_after": 1123,
+  "duplicates_removed": 357,
+  "gain": 364,
+  "projects": {
+    "second-brain": {
+      "total_backup": 163,
+      "total_vps": 257,
+      "duplicates_removed": 91,
+      "backup_added": 72,
+      "vps_kept": 257,
+      "conflicts_resolved": 1,
+      "final_count": 324
+    },
+    "recording-studio-manager": {
+      "total_backup": 621,
+      "total_vps": 446,
+      "duplicates_removed": 266,
+      "backup_added": 355,
+      "vps_kept": 446,
+      "conflicts_resolved": 0,
+      "final_count": 799
+    }
+  }
+}
