@@ -65,6 +65,23 @@ User tape: /start
 - Intelligent: détection automatique du meilleur mode
 - Backward compatible: si pas de resume → mode complet auto
 
+**Format Project ID (hiérarchique):**
+
+Depuis la migration hiérarchique (2025-12-01), les projets utilisent deux formats:
+
+- **Filesystem** (Obsidian, Resumes, last-project.txt): `dev/second-brain`
+- **Mem0 API**: `dev--second-brain` (double tiret)
+
+La conversion est automatique:
+- `/start` convertit `dev/second-brain` → `dev--second-brain` avant `mem0_recall`
+- Obsidian lit toujours le format original avec `/`
+
+**Exemples:**
+```
+/start dev/second-brain          → mem0_recall("dev--second-brain")
+/start dev/recording-studio-manager → mem0_recall("dev--recording-studio-manager")
+```
+
 ### /end - Sauvegarder session
 
 **Fichier:** `~/.claude/commands/end.md`
@@ -86,6 +103,7 @@ User tape: /start
 **Actions:**
 
 1. **Mem0 Save:**
+   - **IMPORTANT:** Conversion automatique `dev/project` → `dev--project` avant `mem0_save`
    - Ce qui a été accompli
    - Décisions techniques prises
    - Problèmes et solutions
