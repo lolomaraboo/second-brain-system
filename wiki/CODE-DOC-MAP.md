@@ -33,12 +33,13 @@ Table de référence unique: fichier code → documentation Obsidian
 | ~/scripts/obsidian_session_manager.py | multi-session-protection.md | Session Manager | ✅ |
 | ~/.claude/shell-config/obsidian-session-helpers.sh | multi-session-protection.md | Obsidian Helpers | ✅ |
 | ~/.claude/shell-config/end-lock-helpers.sh | multi-session-protection.md | Lock Helpers | ✅ |
+| ~/Documents/APP_HOME/CascadeProjects/windsurf-project/SecondBrain/scripts/sync-to-vps.sh | mem0-local-vps-backup.md | Backup Script | ✅ |
 
 ## Statistiques
 
-- **Total mappings:** 16
-- **Status ✅:** 16 (100%)
-- **Dernière vérification:** 2025-12-01
+- **Total mappings:** 17
+- **Status ✅:** 17 (100%)
+- **Dernière vérification:** 2025-12-02
 
 ## Ajouter un nouveau mapping
 

@@ -29,3 +29,6 @@ memories/.backup/
 
 # Qdrant vector storage (ne pas versionner)
 qdrant_storage/
+
+# Backups (contiennent des secrets)
+backups/
