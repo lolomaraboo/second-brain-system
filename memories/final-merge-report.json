@@ -1,0 +1,51 @@
+{
+  "merge_date": "2025-12-02T03:15:00",
+  "total_projects": 5,
+  "total_memories": 1902,
+  "projects": {
+    "second-brain": {
+      "count": 372,
+      "size_kb": 126.5,
+      "source": "3-way merge (second-brain + dev--second-brain + SecondBrain)"
+    },
+    "recording-studio-manager": {
+      "count": 799,
+      "size_kb": 288.1,
+      "source": "2-way merge (recording-studio-manager + dev--recording-studio-manager)"
+    },
+    "ClaudeCodeChampion": {
+      "count": 367,
+      "size_kb": 221.5,
+      "source": "VPS Mem0"
+    },
+    "windsurf-project": {
+      "count": 321,
+      "size_kb": 112.8,
+      "source": "VPS Mem0"
+    },
+    "yt-transcript": {
+      "count": 43,
+      "size_kb": 15.2,
+      "source": "VPS Mem0"
+    }
+  },
+  "operations": {
+    "second-brain": "3-way merge (second-brain + dev--second-brain + SecondBrain)",
+    "recording-studio-manager": "2-way merge (recording-studio-manager + dev--recording-studio-manager)",
+    "ClaudeCodeChampion": "Direct migration from VPS",
+    "windsurf-project": "Direct migration from VPS",
+    "yt-transcript": "Direct migration from VPS"
+  },
+  "duplicates_removed": {
+    "second-brain": 164,
+    "recording-studio-manager": 621,
+    "total": 785
+  },
+  "architecture": {
+    "storage_format": "Individual JSON files (1 file per memory)",
+    "directory_structure": "memories/project-name/memory-id.json",
+    "obsidian_integration": "Unified Git repo with vault",
+    "data_flow": "Local (primary) → VPS (backup)",
+    "semantic_search": "Obsidian built-in"
+  }
+}

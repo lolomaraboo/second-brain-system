@@ -1,0 +1,29 @@
+{
+  "scan_date": "2025-12-02",
+  "projects": {
+    "dev--second-brain": {
+      "count": 281,
+      "sample": "156 memories cleaned"
+    },
+    "dev--recording-studio-manager": {
+      "count": 446,
+      "sample": "Utilis\u00e9 pour multi-tenant SaaS"
+    },
+    "second-brain": {
+      "count": 171,
+      "sample": "\u00c0 faire au red\u00e9marrage: 1) Mettre \u00e0 jour _INDEX.md, 2) Commit migration Obsidian, 3) Continuer Phase"
+    },
+    "recording-studio-manager": {
+      "count": 621,
+      "sample": "RENEWING = renouvellement auto en cours (< 30j expiration)"
+    },
+    "ClaudeCodeChampion": {
+      "count": 367,
+      "sample": "Location is ClaudeCodeChampion/projects/index-test/"
+    },
+    "SecondBrain": {
+      "count": 41,
+      "sample": "Each folder has an _INDEX.md"
+    }
+  }
+}

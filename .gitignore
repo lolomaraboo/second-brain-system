@@ -14,12 +14,18 @@ Thumbs.db
 *.bak
 
 # Memories (stockage local - ne pas versionner les données)
-memories/*.json
+# Individual memory files in project subdirectories
+memories/*/
+
+# Backup directory
 memories/.backup/
 
 # Exceptions: rapports de migration (documentation)
-!memories/merge-report.json
-!memories/comparison-report.json
+!memories/final-merge-report.json
+!memories/vps-*.json
 
 # Logs
 *.log
+
+# Qdrant vector storage (ne pas versionner)
+qdrant_storage/

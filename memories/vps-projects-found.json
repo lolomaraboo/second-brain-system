@@ -1,0 +1,138 @@
+{
+  "scan_date": "2025-12-02",
+  "vps_url": "http://31.220.104.244:8081",
+  "projects_found": {
+    "dev--second-brain": {
+      "total_memories": 0
+    },
+    "dev--recording-studio-manager": {
+      "total_memories": 0
+    },
+    "dev--claude-code-champion": {
+      "total_memories": 0
+    },
+    "dev--ClaudeCodeChampion": {
+      "total_memories": 0
+    },
+    "dev--SecondBrain": {
+      "total_memories": 0
+    },
+    "dev--second_brain": {
+      "total_memories": 0
+    },
+    "dev--claude-code": {
+      "total_memories": 0
+    },
+    "dev--code-champion": {
+      "total_memories": 0
+    },
+    "prod--second-brain": {
+      "total_memories": 0
+    },
+    "prod--recording-studio-manager": {
+      "total_memories": 0
+    },
+    "prod--claude-code-champion": {
+      "total_memories": 0
+    },
+    "prod--ClaudeCodeChampion": {
+      "total_memories": 0
+    },
+    "prod--SecondBrain": {
+      "total_memories": 0
+    },
+    "prod--second_brain": {
+      "total_memories": 0
+    },
+    "prod--claude-code": {
+      "total_memories": 0
+    },
+    "prod--code-champion": {
+      "total_memories": 0
+    },
+    "test--second-brain": {
+      "total_memories": 0
+    },
+    "test--recording-studio-manager": {
+      "total_memories": 0
+    },
+    "test--claude-code-champion": {
+      "total_memories": 0
+    },
+    "test--ClaudeCodeChampion": {
+      "total_memories": 0
+    },
+    "test--SecondBrain": {
+      "total_memories": 0
+    },
+    "test--second_brain": {
+      "total_memories": 0
+    },
+    "test--claude-code": {
+      "total_memories": 0
+    },
+    "test--code-champion": {
+      "total_memories": 0
+    },
+    "demo--second-brain": {
+      "total_memories": 0
+    },
+    "demo--recording-studio-manager": {
+      "total_memories": 0
+    },
+    "demo--claude-code-champion": {
+      "total_memories": 0
+    },
+    "demo--ClaudeCodeChampion": {
+      "total_memories": 0
+    },
+    "demo--SecondBrain": {
+      "total_memories": 0
+    },
+    "demo--second_brain": {
+      "total_memories": 0
+    },
+    "demo--claude-code": {
+      "total_memories": 0
+    },
+    "demo--code-champion": {
+      "total_memories": 0
+    },
+    "second-brain": {
+      "total_memories": 0
+    },
+    "recording-studio-manager": {
+      "total_memories": 0
+    },
+    "claude-code-champion": {
+      "total_memories": 0
+    },
+    "ClaudeCodeChampion": {
+      "total_memories": 0
+    },
+    "SecondBrain": {
+      "total_memories": 0
+    },
+    "second_brain": {
+      "total_memories": 0
+    },
+    "claude-code": {
+      "total_memories": 0
+    },
+    "code-champion": {
+      "total_memories": 0
+    },
+    "dev/second-brain": {
+      "total_memories": 0
+    },
+    "dev/recording-studio-manager": {
+      "total_memories": 0
+    },
+    "dev/claude-code-champion": {
+      "total_memories": 0
+    },
+    "dev/ClaudeCodeChampion": {
+      "total_memories": 0
+    }
+  }
+}
