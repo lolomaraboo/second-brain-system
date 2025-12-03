@@ -7,3 +7,4 @@ Projets de développement.
 - [[claude-code-champion-v4]] : Version 4 de Claude Code Champion
 - [[recording-studio-manager]] : Gestionnaire de studio d'enregistrement
 - [[second-brain]] : Système de mémoire persistante (Mem0 + Obsidian)
+- [[youtube-transcript]] : Extraction de transcriptions YouTube avec intégration Obsidian

@@ -15,6 +15,7 @@ windsurf-project/
 ├── recording-studio-manager/   # Repo indépendant (SaaS)
 ├── ClaudeCodeChampion/         # Framework v4.0 (outils dev)
 ├── SecondBrain/                # Wiki Obsidian
+├── youtube-transcript/         # Extracteur transcriptions YouTube
 │   └── projects/
 │       ├── dev/                # Projets développement
 │       ├── perso/              # Configurations personnelles
@@ -28,6 +29,7 @@ windsurf-project/
 - [[dev/claude-code-champion-v4/_INDEX|claude-code-champion-v4]] : Framework Claude Code v4.0
 - [[dev/claude-code-champion/_INDEX|claude-code-champion]] : Assistant IA pour Claude Code
 - [[dev/second-brain/_INDEX|second-brain]] : Documentation du système Second Brain
+- [[dev/youtube-transcript/_INDEX|youtube-transcript]] : Extraction de transcriptions YouTube avec intégration Obsidian
 
 ## Projets personnels (perso/)
 
