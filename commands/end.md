@@ -18,6 +18,21 @@ Ceci acquiert un lock pour éviter les conflits si 2 sessions font /end simultan
 
 ---
 
+**ÉTAPE 0 - Confirmation du projet (CRITIQUE) :**
+
+1. **Détecter le projet** selon les priorités (voir section 4 "Détection du projet")
+2. **Afficher IMMÉDIATEMENT** :
+   ```
+   💾 Sauvegarde session : [project_id]
+      Source: [argument/session-cache/last-project/git-root/pwd]
+
+   Confirmer le projet ? (y/n)
+   ```
+3. **Si 'n'** : Demander le nom correct du projet et l'utiliser
+4. **Si 'y'** : Continuer avec ce project_id
+
+---
+
 1. **Mem0** :
    - **IMPORTANT**: Convertir le project_id pour Mem0 : remplacer `/` par `--` (ex: `dev/second-brain` → `dev--second-brain`)
    - Utilise mem0_save avec le project_id converti pour sauvegarder le contexte de travail :
@@ -27,7 +42,7 @@ Ceci acquiert un lock pour éviter les conflits si 2 sessions font /end simultan
      - Les prochaines étapes suggérées
 
 2. **Documentation Review (CODE-DOC-MAP)** : Vérifie la synchronisation code-doc :
-   - Lit `SecondBrain/wiki/CODE-DOC-MAP.md` (si existe)
+   - Lit `Memories/vault/wiki/CODE-DOC-MAP.md` (si existe)
    - Identifie les fichiers code modifiés pendant la session
    - Pour chaque fichier dans CODE-DOC-MAP, vérifie si doc correspondante à jour
    - Affiche résumé : "📝 Documentation Review:"
@@ -36,7 +51,7 @@ Ceci acquiert un lock pour éviter les conflits si 2 sessions font /end simultan
      - ~/scripts/mem0_mcp_server.py
 
      Documentation correspondante (CODE-DOC-MAP):
-     - SecondBrain/wiki/tools/mem0-auto-sync-architecture.md
+     - Memories/vault/wiki/tools/mem0-auto-sync-architecture.md
 
      Ces fichiers docs sont-ils à jour? [o/n]
      ```
@@ -52,10 +67,12 @@ Ceci acquiert un lock pour éviter les conflits si 2 sessions font /end simultan
 
 4. **Resume File** : Génère automatiquement un résumé ultra-rapide :
 
-   **Détection du projet (robuste) :**
-   - Si argument fourni : utilise `$ARGUMENTS` comme project_id
-   - Sinon : essaye `git rev-parse --show-toplevel` puis `basename`
-   - Fallback : `basename "$PWD"`
+   **Détection du projet (robuste, multi-sessions) :**
+   - **Priorité 1** : Si argument fourni : utilise `$ARGUMENTS` comme project_id
+   - **Priorité 2** : Lit `~/.claude/sessions/${CLAUDE_SESSION_ID:-default}/project.txt` (projet de cette session)
+   - **Priorité 3** : Lit `~/.claude/last-project.txt` (dernier projet toutes sessions, backup)
+   - **Priorité 4** : Git root : `git rev-parse --show-toplevel` puis `basename`
+   - **Priorité 5** : Fallback : `basename "$PWD"`
    - **Confirmation** : Affiche "💾 Saving context for project '[project_id]' - Proceed? (y/n)"
    - Si 'n' : demander le nom du projet
 

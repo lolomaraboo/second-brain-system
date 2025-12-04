@@ -15,13 +15,31 @@ Charge le contexte du projet avec deux modes intelligents.
 ## Mode de détection
 
 1. **Déterminer le projet :**
-   - Si argument fourni (pas --full) : utiliser comme project_id
-   - Sinon : lire `~/.claude/last-project.txt` pour le dernier projet
-   - Fallback : utiliser `basename` du répertoire courant
+   - **Priorité 1** : Si argument fourni (pas --full) : utiliser comme project_id
+   - **Priorité 2** : Lire `~/.claude/sessions/${CLAUDE_SESSION_ID:-default}/project.txt` (projet de cette session)
+   - **Priorité 3** : Lire `~/.claude/last-project.txt` (dernier projet toutes sessions)
+   - **Priorité 4** : Git root : `git rev-parse --show-toplevel` puis `basename`
+   - **Priorité 5** : Fallback : `basename "$PWD"`
+   - **IMPORTANT** : Écrire le project_id détecté dans :
+     - `~/.claude/sessions/${CLAUDE_SESSION_ID:-default}/project.txt` (cette session)
+     - `~/.claude/last-project.txt` (global, pour backup)
+   - Créer `~/.claude/sessions/${CLAUDE_SESSION_ID:-default}/` avec `mkdir -p` si nécessaire
 
 2. **Choisir le mode :**
    - Si `--full` présent dans arguments : **Mode complet**
    - Sinon : **Mode rapide** (par défaut)
+
+## Affichage du projet détecté
+
+**IMPORTANT** : Après détection du projet, afficher IMMÉDIATEMENT :
+```
+🚀 Démarrage session : [project_id]
+   Source: [argument/session-cache/last-project/git-root/pwd]
+```
+
+Exemples :
+- `🚀 Démarrage session : SecondBrain` (Source: session-cache)
+- `🚀 Démarrage session : recording-studio-manager` (Source: argument)
 
 ## Mode Rapide (par défaut)
 
@@ -55,7 +73,7 @@ Force le chargement complet même si resume existe :
 3. **Mem0** :
    - **IMPORTANT**: Convertir le project_id pour Mem0 : remplacer `/` par `--` (ex: `dev/second-brain` → `dev--second-brain`)
    - Utilise mem0_recall avec le project_id converti pour charger le contexte de travail
-4. **Obsidian** : Lis les _INDEX.md du projet dans SecondBrain/projects/[projet]/ (utilise project_id original avec `/`)
+4. **Obsidian** : Lis les _INDEX.md du projet dans Memories/vault/projects/[projet]/ (utilise project_id original avec `/`)
 
 Présente un résumé de :
 - Ce qui a été fait précédemment (Mem0)
