@@ -6,9 +6,9 @@
 
 **Avant d'utiliser TOUT outil (Read, Bash, Write, etc.), vérifie:**
 
-1. ✅ **Chercher d'abord dans Second Brain:**
-   - `mem0_search` pour trouver informations existantes
-   - Lire Obsidian `_INDEX.md` pertinents
+1. ✅ **Chercher OBLIGATOIREMENT dans Second Brain (LES DEUX):**
+   - `mem0_search` → Contexte récent, décisions, sessions passées
+   - `obsidian_search` → Documentation permanente, guides, architecture
    - **SEULEMENT APRÈS:** utiliser filesystem (Bash, Read, etc.)
 
 2. ✅ **Sauvegarder automatiquement:**
@@ -16,18 +16,31 @@
    - Après décision technique → `mem0_save`
    - Après création config/script → `mem0_save`
 
-3. ✅ **Toujours consulter la mémoire avant:**
-   - Créer nouveau fichier (Write) → chercher patterns existants
-   - Modifier fichier critique (Edit) → chercher bugs/décisions connus
-   - Faire git commit → chercher conventions projet
-   - Installer package → chercher conflits connus
+3. ✅ **Workflow OBLIGATOIRE avant exploration:**
+   - Créer nouveau fichier (Write) → `mem0_search` + `obsidian_search` patterns existants
+   - Modifier fichier critique (Edit) → `mem0_search` + `obsidian_search` bugs/décisions connus
+   - Faire git commit → `mem0_search` + `obsidian_search` conventions projet
+   - Installer package → `mem0_search` + `obsidian_search` conflits connus
 
-**RÈGLE D'OR: Mémoire/Obsidian AVANT filesystem/bash**
+**RÈGLE D'OR: TOUJOURS mem0_search ET obsidian_search AVANT filesystem/bash**
 
-**Ordre de priorité obligatoire:**
-1. `mem0_search` → Chercher dans la mémoire
-2. `Read` Obsidian _INDEX.md → Consulter documentation
+**Ordre de priorité OBLIGATOIRE (pas de fallback - LES DEUX):**
+1. `mem0_search` → Chercher contexte récent/sessions
+2. `obsidian_search` → Chercher documentation permanente
 3. **SEULEMENT APRÈS:** Bash/Read filesystem
+
+**Pourquoi LES DEUX obligatoirement:**
+- Claude perd le contexte entre sessions
+- mem0_search seul = risque de manquer la doc
+- obsidian_search seul = risque de manquer le contexte récent
+- Les deux ensemble = vision complète garantie
+
+**⚠️ SYSTÈMES DE RECHERCHE DISPONIBLES:**
+- ✅ **mem0_search**: Cherche dans mémoires JSON (Memories/memories/) - contexte sessions
+- ✅ **obsidian_search**: Cherche dans vault Obsidian (Memories/vault/) - documentation permanente
+- ✅ **mem0_save**: Sauvegarde automatique dans mémoires
+- ✅ **mem0_recall**: Charge contexte projet au démarrage
+- ❌ **JAMAIS utiliser:** `mcp__memory__*` (système Docker désactivé le 2025-12-04)
 
 ---
 
@@ -98,20 +111,20 @@ Propose de documenter dans Obsidian (avec confirmation) après :
 
 **Règle : Ne pas attendre que l'utilisateur demande.**
 
-#### 2. Consultation automatique (mem0_search)
+#### 2. Consultation automatique (mem0_search + obsidian_search)
 
-⚠️ **RÈGLE CRITIQUE:** TOUJOURS consulter Mem0/Obsidian AVANT d'utiliser Bash/Read/Write pour explorer le système
+⚠️ **RÈGLE CRITIQUE:** TOUJOURS faire mem0_search ET obsidian_search AVANT d'utiliser Bash/Read/Write
 
-**Si tu utilises Bash/Read pour chercher sans avoir consulté Mem0/Obsidian d'abord = VIOLATION DE LA RÈGLE**
+**Si tu utilises Bash/Read pour chercher sans avoir fait mem0_search + obsidian_search d'abord = VIOLATION DE LA RÈGLE**
 
 **Avant ces outils :**
-| Outil | Rechercher |
+| Outil | Rechercher (LES DEUX) |
 |-------|------------|
-| Write (nouveau fichier) | Fichier existant ? Pattern similaire ? |
-| Edit (fichier critique) | Bugs connus ? Décisions passées ? |
-| Bash: git commit | Conventions du projet ? |
-| Bash: npm/pip install | Conflits connus ? |
-| mcp__github__create_* | Repo/PR similaire existe ? |
+| Write (nouveau fichier) | mem0_search + obsidian_search: Fichier existant ? Pattern similaire ? |
+| Edit (fichier critique) | mem0_search + obsidian_search: Bugs connus ? Décisions passées ? |
+| Bash: git commit | mem0_search + obsidian_search: Conventions du projet ? |
+| Bash: npm/pip install | mem0_search + obsidian_search: Conflits connus ? |
+| mcp__github__create_* | mem0_search + obsidian_search: Repo/PR similaire existe ? |
 
 **Dans ces situations :**
 | Situation | Rechercher |
@@ -147,11 +160,24 @@ Quand le contexte devient long (beaucoup d'échanges, fichiers lus, tâches comp
 Le project_id = nom du dossier du projet (ex: `recording-studio-manager`).
 
 ### Outils et commandes
-**MCP Mem0 :**
-- `mem0_recall` : Charger le contexte d'un projet
+
+**MCP Mem0 (mémoires JSON) :**
+- `mem0_recall` : Charger le contexte d'un projet au démarrage
 - `mem0_save` : Sauvegarder une information importante
-- `mem0_search` : Rechercher dans la mémoire
+- `mem0_search` : Rechercher dans les mémoires JSON (contexte sessions)
 - `mem0_health` : Vérifier que l'API fonctionne
+
+**MCP Obsidian (vault documentation) :**
+- `obsidian_search` : Rechercher dans la documentation Obsidian (guides, architecture, patterns)
+  - Limite par défaut: 5 résultats
+  - Retourne: score, file_path, file_type (INDEX/DOC), project_id, preview
+
+**Workflow recherche OBLIGATOIRE :**
+```
+1. mem0_search("ma requête", project_id="...", limit=10)
+2. obsidian_search("ma requête", limit=5)
+3. Seulement après: Bash/Read/Grep
+```
 
 **Slash commands :**
 - `/start` : Charger le contexte complet (Mem0 + Obsidian)
