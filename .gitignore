@@ -8,6 +8,10 @@
 # Backups temporaires
 backups/
 
+# IMPORTANT: Ne pas partager les mémoires personnelles
+# Chaque utilisateur crée ses propres mémoires
+qdrant_storage/
+
 # OS
 .DS_Store
 Thumbs.db
@@ -16,3 +20,6 @@ Thumbs.db
 *.tmp
 *.bak
 *.log
+
+# Local sync status
+.last-sync
