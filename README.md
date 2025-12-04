@@ -2,6 +2,8 @@
 
 Personal knowledge base for Claude Code sessions, combining Mem0 (working memory) and Obsidian (permanent wiki).
 
+**📦 NEW USER?** → See [INSTALL.md](INSTALL.md) for complete installation guide
+
 ## Repos GitHub
 
 | Projet | Repo |
