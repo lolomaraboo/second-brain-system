@@ -13,7 +13,32 @@ Guide pour installer votre propre instance de Second Brain (système de mémoire
 
 ---
 
-## Installation Rapide
+## Installation Automatique (Recommandé)
+
+### Script d'installation en 1 commande
+
+```bash
+git clone https://github.com/lolomaraboo/second-brain-system.git SecondBrain
+cd SecondBrain
+./install.sh
+```
+
+Le script installe automatiquement :
+- ✅ Qdrant (Docker)
+- ✅ Packages Python (mem0ai, requests, openai)
+- ✅ MCP Server configuration
+- ✅ Claude Code slash commands et hooks
+- ✅ Structure de mémoires
+
+**Seule chose à fournir :** Clé API OpenAI (obtenir sur [platform.openai.com/api-keys](https://platform.openai.com/api-keys))
+
+**Durée :** ~2-3 minutes
+
+---
+
+## Installation Manuelle (Alternative)
+
+Si vous préférez installer manuellement :
 
 ### 1. Cloner le repo
 

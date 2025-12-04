@@ -2,7 +2,7 @@
 
 Personal knowledge base for Claude Code sessions, combining Mem0 (working memory) and Obsidian (permanent wiki).
 
-**📦 NEW USER?** → See [INSTALL.md](docs/INSTALL.md) for complete installation guide
+**📦 NEW USER?** → Run `./install.sh` for automatic installation (or see [INSTALL.md](docs/INSTALL.md))
 
 ## Repos GitHub
 
