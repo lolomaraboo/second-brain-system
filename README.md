@@ -15,19 +15,31 @@ Personal knowledge base for Claude Code sessions, combining Mem0 (working memory
 
 ## Structure
 
+**SecondBrain/** = Config + scripts only (versioned in Git)
 ```
 SecondBrain/
-├── .claude/           # Config Claude Code (synchronisée depuis ~/.claude)
-├── projects/          # Notes par projet
-├── wiki/
-│   ├── patterns/      # Best practices
-│   ├── tools/         # Documentation outils
-│   ├── secrets/       # Annuaire secrets (PAS les valeurs!)
-│   └── troubleshooting/
-├── ideas/             # Brainstorming
-├── daily/             # Notes quotidiennes
-└── templates/         # Templates pour nouvelles notes
+├── claude-config/     # Backup de ~/.claude/ (read-only)
+├── commands/          # Slash commands (/start, /end, /wiki)
+├── hooks/             # System hooks
+├── scripts/           # Scripts (MCP server, monitoring, migration)
+├── templates/         # Obsidian templates
+├── docs/              # Documentation
+└── backups/           # Pre-migration backups
 ```
+
+**Memories/** = All data (gitignored, not in this repo)
+```
+Memories/
+├── vault/             # Obsidian notes (markdown)
+│   ├── projects/      # Project notes
+│   ├── wiki/          # Tools, patterns, secrets directory, troubleshooting
+│   ├── ideas/         # Brainstorming
+│   └── daily/         # Daily notes
+├── memories/          # Mem0 context (JSON files)
+└── qdrant_storage/    # Qdrant vector database
+```
+
+See [architecture-memories.md](../Memories/vault/wiki/architecture-memories.md) for full details.
 
 ## Usage
 
