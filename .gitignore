@@ -1,9 +1,12 @@
-# Obsidian
+# Obsidian - config personnelle uniquement
 .obsidian/workspace.json
 .obsidian/workspace-mobile.json
 .obsidian/plugins/
 .obsidian/community-plugins.json
 .obsidian/hotkeys.json
+
+# Backups temporaires
+backups/
 
 # OS
 .DS_Store
@@ -12,23 +15,4 @@ Thumbs.db
 # Temporary
 *.tmp
 *.bak
-
-# Memories (stockage local - ne pas versionner les données)
-# Individual memory files in project subdirectories
-memories/*/
-
-# Backup directory
-memories/.backup/
-
-# Exceptions: rapports de migration (documentation)
-!memories/final-merge-report.json
-!memories/vps-*.json
-
-# Logs
 *.log
-
-# Qdrant vector storage (ne pas versionner)
-qdrant_storage/
-
-# Backups (contiennent des secrets)
-backups/

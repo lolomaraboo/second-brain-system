@@ -1,0 +1,61 @@
+{
+  "version": "1.0",
+  "created_at": "2025-11-05",
+  "description": "Tracking usage of custom agents for analytics and optimization",
+  "agents": {
+    "session-manager": {
+      "total_calls": 1,
+      "modes": {
+        "summary": 0,
+        "close": 0,
+        "full": 1
+      },
+      "last_used": "2025-11-06T00:28:01Z",
+      "avg_session_duration_min": null
+    },
+    "brutal-critic": {
+      "total_calls": 1,
+      "avg_score": 7.3,
+      "last_used": "2025-11-06T00:27:53Z",
+      "categories_reviewed": {
+        "code": 0,
+        "architecture": 0,
+        "documentation": 0,
+        "other": 0
+      }
+    },
+    "gemini-researcher": {
+      "total_calls": 0,
+      "total_queries": 0,
+      "last_used": null,
+      "topics": []
+    },
+    "perplexity-researcher": {
+      "total_calls": 0,
+      "total_queries": 0,
+      "last_used": null,
+      "topics": []
+    },
+    "setup-assistant": {
+      "total_calls": 0,
+      "last_used": null,
+      "issues_resolved": 0
+    }
+  },
+  "summary": {
+    "most_used_agent": "brutal-critic",
+    "least_used_agent": "session-manager",
+    "total_agent_calls": 2,
+    "agents_never_used": [
+      "gemini-researcher",
+      "perplexity-researcher",
+      "setup-assistant"
+    ]
+  },
+  "meta": {
+    "tracking_since": "2025-11-05",
+    "last_updated": "2025-11-06T00:28:01Z",
+    "update_frequency": "on_agent_call",
+    "data_retention_days": 365
+  }
+}

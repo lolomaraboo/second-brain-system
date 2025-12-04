@@ -1,0 +1,20 @@
+#!/bin/bash
+# Git hook: sync ~/.claude avant chaque commit dans SecondBrain/
+# À installer: ln -sf ../../hooks/pre-commit-claude-sync .git/hooks/pre-commit
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+SECONDBRAIN_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
+
+echo "🔄 Sync ~/.claude → claude-config/ avant commit..."
+
+"$SECONDBRAIN_DIR/scripts/sync-claude-config.sh" to-backup > /dev/null 2>&1
+
+if [ $? -eq 0 ]; then
+    echo "✅ Sync terminé"
+    # Re-add les fichiers modifiés par le sync
+    git add claude-config/
+else
+    echo "⚠️  Sync échoué (non-bloquant)"
+fi
+
+exit 0

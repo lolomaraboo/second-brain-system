@@ -1,0 +1,48 @@
+# Secrets et données sensibles
+.env
+*.pem
+*.key
+*.secret
+
+# Cache et données temporaires volumineuses
+projects/
+file-history/
+debug/
+shell-snapshots/
+todos/
+plans/
+
+# Logs et métriques
+logs/
+*.log
+history.jsonl
+mem0_metrics.json
+mem0_queue.json
+
+# Backups de mémoires (déjà dans Memories/)
+mem0-backup-*.json
+
+# Session temporaires
+session-env/
+sessions/*/project.txt
+
+# Statsig analytics
+statsig/
+
+# Archives
+archive/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# À VERSIONNER (config importante):
+# - commands/ (slash commands)
+# - hooks/ (git hooks)
+# - shell-config/ (helpers bash)
+# - resumes/ (templates de resume)
+# - CLAUDE.md (instructions)
+# - agents/ (config agents)
+# - config/ (config générale)
+# - .setup-status
+# - last-project.txt
