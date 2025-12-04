@@ -6,7 +6,7 @@ Index de toute la documentation du projet.
 
 ## Installation
 
-**👉 [INSTALL.md](../INSTALL.md)** - Guide complet pour installer ton propre Second Brain
+**👉 [INSTALL.md](INSTALL.md)** - Guide complet pour installer ton propre Second Brain
 
 ---
 
@@ -40,7 +40,7 @@ Index de toute la documentation du projet.
 
 | Besoin | Document |
 |--------|----------|
-| Installer pour la 1ère fois | [INSTALL.md](../INSTALL.md) |
+| Installer pour la 1ère fois | [INSTALL.md](INSTALL.md) |
 | Monitoring quotidien | [scripts/MONITORING.md](../scripts/MONITORING.md) |
 | Problème Python/packages | [scripts/REQUIREMENTS.md](../scripts/REQUIREMENTS.md) |
 | Comprendre les décisions | [reviews/review-decisions.md](reviews/review-decisions.md) |
