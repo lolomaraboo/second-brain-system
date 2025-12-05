@@ -70,11 +70,11 @@ See [architecture-memories.md](../Memories/vault/wiki/architecture-memories.md) 
 
 **Fonctionnement :**
 1. `mem0_save` → Sauvegarde dans Qdrant local + backup JSON simultané
-2. **Phase 2:** `analyze_for_documentation()` analyse le contenu via GPT-4o-mini
+2. **Auto-Doc:** `analyze_for_documentation()` analyse le contenu via GPT-4o-mini
 3. Si pattern détecté (confidence > 0.7) → Suggestion avec draft pré-généré
 4. `mem0_search` → Recherche sémantique dans Qdrant local (offline)
 
-**Phase 2 - Auto-Documentation (2025-12-04) :**
+**Auto-Doc - Documentation Automatique Intelligente (2025-12-04) :**
 - **Pattern detection automatique** via GPT-4o-mini
 - **Patterns détectés:** Bug résolu, Décision technique, Config/Secret, Nouveau tool, Pattern réutilisable, Migration
 - **Filesystem watcher:** Re-indexation automatique du vault Obsidian à chaque modification .md

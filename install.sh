@@ -300,10 +300,10 @@ fi
 print_success "Claude Code integration complete"
 
 # ============================================================================
-# STEP 7: Install Filesystem Watcher (Auto) - Phase 2
+# STEP 7: Install Filesystem Watcher (Auto) - Auto-Doc
 # ============================================================================
 
-print_header "Step 7/8: Installing Phase 2 - Obsidian Filesystem Watcher"
+print_header "Step 7/8: Installing Auto-Doc - Obsidian Filesystem Watcher"
 
 # Get project root (where Memories/ vault is located)
 if [ -z "$PROJECT_ROOT" ]; then
@@ -441,7 +441,7 @@ echo "  • Memories: ${BLUE}$MEMORIES_DIR${NC}"
 echo "  • Config: ${BLUE}$CLAUDE_DIR${NC}"
 echo "  • Watcher: ${BLUE}Obsidian filesystem watcher (24/7)${NC}"
 echo ""
-echo -e "${BOLD}Phase 2 Features (Auto-Documentation):${NC}"
+echo -e "${BOLD}Auto-Doc Features (Intelligent Documentation):${NC}"
 echo "  • GPT-4o-mini analyzes mem0_save for documentable patterns"
 echo "  • Automatic suggestions with pre-generated drafts"
 echo "  • Filesystem watcher re-indexes Obsidian vault on .md changes"
@@ -450,11 +450,11 @@ echo ""
 echo -e "${BOLD}Documentation:${NC}"
 echo "  • Complete guide: ${BLUE}docs/INSTALL.md${NC}"
 echo "  • Architecture: ${BLUE}README.md${NC}"
-echo "  • Phase 2 details: ${BLUE}Memories/vault/ideas/auto-doc-phase2.md${NC}"
+echo "  • Auto-Doc details: ${BLUE}Memories/vault/wiki/tools/auto-doc.md${NC}"
 echo ""
 echo -e "${BOLD}Cost:${NC}"
 echo "  • Embeddings: ~\$0.002 per 1000 memories"
-echo "  • Phase 2: ~\$0.58/month (100 mem0_save/day)"
+echo "  • Auto-Doc: ~\$0.58/month (100 mem0_save/day)"
 echo "  • Total: ~\$1/month for active usage"
 echo ""
 

@@ -27,7 +27,7 @@ claude                 # Lance Claude Code
 
 # Second Brain (dans Claude Code)
 /start                 # Charge contexte (Mem0 + Obsidian)
-/end                   # Sauvegarde contexte (auto-doc Phase 2)
+/end                   # Sauvegarde contexte (Auto-Doc)
 /wiki [note]           # Ajoute note au wiki Obsidian
 
 # Utilitaires

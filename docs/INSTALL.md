@@ -29,7 +29,7 @@ Le script installe automatiquement :
 - ✅ MCP Server configuration
 - ✅ Claude Code slash commands et hooks
 - ✅ Structure de mémoires
-- ✅ **Phase 2:** Filesystem watcher + auto-documentation
+- ✅ **Auto-Doc:** Filesystem watcher + documentation automatique intelligente
 
 **Seule chose à fournir :** Clé API OpenAI (obtenir sur [platform.openai.com/api-keys](https://platform.openai.com/api-keys))
 
@@ -343,11 +343,11 @@ git pull
 
 ---
 
-## Phase 2 - Auto-Documentation (2025-12-04)
+## Auto-Doc - Documentation Automatique Intelligente (2025-12-04)
 
-### Qu'est-ce que Phase 2 ?
+### Qu'est-ce qu'Auto-Doc ?
 
-Phase 2 ajoute l'**auto-documentation intelligente** via GPT-4o-mini :
+Auto-Doc est un système d'**auto-documentation intelligente** via GPT-4o-mini :
 
 1. **Pattern Detection Automatique**
    - Chaque `mem0_save` est analysé par GPT-4o-mini
@@ -359,10 +359,10 @@ Phase 2 ajoute l'**auto-documentation intelligente** via GPT-4o-mini :
    - Surveille `Memories/vault/` pour changements .md
    - Re-indexe automatiquement Qdrant après chaque modification (debounce 2s)
 
-### Installation Phase 2
+### Installation Auto-Doc
 
 **Automatique (via install.sh) :**
-Le script install.sh installe automatiquement Phase 2 si tu utilises la dernière version.
+Le script install.sh installe automatiquement Auto-Doc si tu utilises la dernière version.
 
 **Manuel :**
 
@@ -400,7 +400,7 @@ EOF
 launchctl load ~/Library/LaunchAgents/com.secondbrain.obsidian-watcher.plist
 ```
 
-### Vérifier Phase 2
+### Vérifier Auto-Doc
 
 ```bash
 # Vérifier que le watcher tourne
@@ -414,11 +414,11 @@ tail -f SecondBrain/logs/obsidian-watcher.error.log
 # Tu devrais voir une suggestion automatique avec confidence score
 ```
 
-### Coût Phase 2
+### Coût Auto-Doc
 
 - **GPT-4o-mini analysis :** ~$0.000075 par mem0_save
 - **100 mem0_save/jour :** ~$0.0075/jour = **$0.58/mois**
-- **Total (embeddings + Phase 2) :** ~$1/mois pour usage actif
+- **Total (embeddings + Auto-Doc) :** ~$1/mois pour usage actif
 
 ### Patterns Détectés
 
