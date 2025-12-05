@@ -25,10 +25,11 @@ cd SecondBrain
 
 Le script installe automatiquement :
 - ✅ Qdrant (Docker)
-- ✅ Packages Python (mem0ai, requests, openai)
+- ✅ Packages Python (mem0ai, requests, openai, watchdog)
 - ✅ MCP Server configuration
 - ✅ Claude Code slash commands et hooks
 - ✅ Structure de mémoires
+- ✅ **Phase 2:** Filesystem watcher + auto-documentation
 
 **Seule chose à fournir :** Clé API OpenAI (obtenir sur [platform.openai.com/api-keys](https://platform.openai.com/api-keys))
 
@@ -75,7 +76,7 @@ echo "OPENAI_API_KEY=sk-your-key-here" >> ~/.claude/.env
 ### 4. Installer les packages Python
 
 ```bash
-pip install mem0ai requests openai
+pip install mem0ai requests openai watchdog
 ```
 
 ### 5. Configurer le MCP Server Mem0
@@ -339,6 +340,96 @@ git pull
 **Storage :** Local (pas de VPS, pas de cloud)
 
 **Coût :** ~$0.002 pour 1000 mémoires (embeddings)
+
+---
+
+## Phase 2 - Auto-Documentation (2025-12-04)
+
+### Qu'est-ce que Phase 2 ?
+
+Phase 2 ajoute l'**auto-documentation intelligente** via GPT-4o-mini :
+
+1. **Pattern Detection Automatique**
+   - Chaque `mem0_save` est analysé par GPT-4o-mini
+   - Détecte 6 types de patterns : Bug résolu, Décision technique, Config/Secret, Nouveau tool, Pattern réutilisable, Migration
+   - Si confidence > 0.7 → Suggestion automatique avec draft pré-généré
+
+2. **Filesystem Watcher**
+   - Service macOS 24/7 (LaunchAgent)
+   - Surveille `Memories/vault/` pour changements .md
+   - Re-indexe automatiquement Qdrant après chaque modification (debounce 2s)
+
+### Installation Phase 2
+
+**Automatique (via install.sh) :**
+Le script install.sh installe automatiquement Phase 2 si tu utilises la dernière version.
+
+**Manuel :**
+
+```bash
+# 1. Installer watchdog
+pip install watchdog
+
+# 2. Copier le watcher script
+cp scripts/obsidian_vault_watcher.py ~/path/to/SecondBrain/scripts/
+
+# 3. Créer le LaunchAgent
+cat > ~/Library/LaunchAgents/com.secondbrain.obsidian-watcher.plist << 'EOF'
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.secondbrain.obsidian-watcher</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>/usr/bin/python3</string>
+        <string>/Users/TON-USERNAME/path/to/SecondBrain/scripts/obsidian_vault_watcher.py</string>
+    </array>
+    <key>RunAtLoad</key>
+    <true/>
+    <key>KeepAlive</key>
+    <true/>
+    <key>StandardErrorPath</key>
+    <string>/Users/TON-USERNAME/path/to/SecondBrain/logs/obsidian-watcher.error.log</string>
+</dict>
+</plist>
+EOF
+
+# 4. Charger le service
+launchctl load ~/Library/LaunchAgents/com.secondbrain.obsidian-watcher.plist
+```
+
+### Vérifier Phase 2
+
+```bash
+# Vérifier que le watcher tourne
+launchctl list | grep obsidian-watcher
+
+# Voir les logs
+tail -f SecondBrain/logs/obsidian-watcher.error.log
+
+# Tester la détection de patterns
+# Dans Claude Code, fais un mem0_save avec un bug résolu
+# Tu devrais voir une suggestion automatique avec confidence score
+```
+
+### Coût Phase 2
+
+- **GPT-4o-mini analysis :** ~$0.000075 par mem0_save
+- **100 mem0_save/jour :** ~$0.0075/jour = **$0.58/mois**
+- **Total (embeddings + Phase 2) :** ~$1/mois pour usage actif
+
+### Patterns Détectés
+
+| Pattern | Mots-clés | Obsidian Path Suggéré |
+|---------|-----------|----------------------|
+| Bug résolu | "bug", "fix", "résolu", "solution" | `wiki/troubleshooting/bug-name.md` |
+| Décision technique | "décision", "choix", "opté pour" | `projects/[projet]/decisions/decision.md` |
+| Config/Secret | "config", "ENV", "variable", "secret" | `wiki/secrets/service.md` |
+| Nouveau tool | "script créé", "outil", "helper" | `wiki/tools/tool-name.md` |
+| Pattern réutilisable | "workaround", "astuce", "pattern" | `wiki/patterns/pattern-name.md` |
+| Migration | "migration", "refactoring", "breaking change" | `projects/[projet]/architecture.md` |
 
 ---
 

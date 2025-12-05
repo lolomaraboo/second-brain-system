@@ -59,35 +59,41 @@ See [architecture-memories.md](../Memories/vault/wiki/architecture-memories.md) 
 
 ## Architecture
 
-### Mem0 - Solution 2A (Queue Locale)
+### Mem0 - Architecture Locale (Qdrant)
 
 **Composants :**
-- Queue locale : `~/.claude/mem0_queue.json`
-- Lock file : `~/.claude/mem0_queue.lock` (file locking)
-- Worker : `~/scripts/mem0_queue_worker.py`
-- Cron : Exécution automatique toutes les 10 minutes
-- Logs : `~/.claude/logs/mem0_worker.log`
+- **Qdrant Vector Store :** localhost:6333 (Docker)
+- **Mem0 Library :** Gestion embeddings + LLM
+- **OpenAI API :** GPT-4o-mini (LLM) + text-embedding-3-small (embeddings)
+- **JSON Backups :** `Memories/memories/{project_id}/{uuid}.json` (Git-versionnable)
+- **MCP Server :** `SecondBrain/scripts/mem0_mcp_server_local.py`
 
 **Fonctionnement :**
-1. `mem0_save` → Écriture immédiate dans queue locale (avec lock)
-2. Worker cron → Synchronisation VPS toutes les 10 minutes (avec lock)
-3. Délai max : 10 minutes entre sauvegarde et sync VPS
+1. `mem0_save` → Sauvegarde dans Qdrant local + backup JSON simultané
+2. **Phase 2:** `analyze_for_documentation()` analyse le contenu via GPT-4o-mini
+3. Si pattern détecté (confidence > 0.7) → Suggestion avec draft pré-généré
+4. `mem0_search` → Recherche sémantique dans Qdrant local (offline)
 
-**Sécurité multi-instances :**
-- File locking (`fcntl`) empêche les race conditions
-- Timeout de 5 secondes pour éviter blocages infinis
-- ✅ **Safe pour 2+ instances Claude Code en parallèle**
+**Phase 2 - Auto-Documentation (2025-12-04) :**
+- **Pattern detection automatique** via GPT-4o-mini
+- **Patterns détectés:** Bug résolu, Décision technique, Config/Secret, Nouveau tool, Pattern réutilisable, Migration
+- **Filesystem watcher:** Re-indexation automatique du vault Obsidian à chaque modification .md
+- **LaunchAgent macOS:** Service 24/7 pour watcher (`com.secondbrain.obsidian-watcher.plist`)
+- **Coût:** ~$0.58/mois pour 100 mem0_save/jour
 
 **Commandes :**
 ```bash
-# Vérifier statut de la queue
-mem0_queue_status
+# Vérifier santé du système
+mcp__mem0__mem0_health
 
-# Forcer synchronisation immédiate
-python3 ~/scripts/mem0_queue_worker.py
+# Lister tous les projets
+mcp__mem0__mem0_list_projects
 
-# Voir logs du worker
-tail -f ~/.claude/logs/mem0_worker.log
+# Vérifier status du watcher (LaunchAgent)
+launchctl list | grep obsidian-watcher
+
+# Voir logs du watcher
+tail -f SecondBrain/logs/obsidian-watcher.error.log
 ```
 
 ### Synchronisation Config
@@ -152,26 +158,45 @@ cd ~/.claude/shell-config
 
 ## Troubleshooting
 
-**Queue bloquée ?**
+**Qdrant ne répond pas ?**
 ```bash
-# Vérifier le statut
-mem0_queue_status
+# Vérifier que le container Docker tourne
+docker ps | grep qdrant
 
-# Forcer sync manuelle
-python3 ~/scripts/mem0_queue_worker.py
+# Redémarrer Qdrant
+docker restart qdrant
+
+# Vérifier la santé du système
+mcp__mem0__mem0_health
 ```
 
-**Sync échoue ?**
+**Filesystem watcher ne fonctionne pas ?**
 ```bash
-# Vérifier les backups
-ls -la .claude/.backups/
+# Vérifier le service LaunchAgent
+launchctl list | grep obsidian-watcher
 
-# Restaurer un backup
-cp -r .claude/.backups/YYYYMMDD_HHMMSS/* .claude/
+# Redémarrer le watcher
+launchctl unload ~/Library/LaunchAgents/com.secondbrain.obsidian-watcher.plist
+launchctl load ~/Library/LaunchAgents/com.secondbrain.obsidian-watcher.plist
+
+# Voir les logs
+tail -f SecondBrain/logs/obsidian-watcher.error.log
 ```
 
-**Lock bloqué ?**
+**mem0_save ne retourne pas de suggestion ?**
 ```bash
-# Nettoyer le lock
-rm .claude/.sync.lock
+# Vérifier que OPENAI_API_KEY est configuré
+grep OPENAI_API_KEY ~/.claude/.env
+
+# Tester manuellement l'analyse
+python3 -c "from SecondBrain.scripts.mem0_mcp_server_local import analyze_for_documentation; print(analyze_for_documentation('Bug résolu: crash MCP', 'test'))"
+```
+
+**Obsidian search ne trouve rien ?**
+```bash
+# Vérifier que le vault est indexé
+python3 SecondBrain/scripts/index_obsidian_vault_direct.py
+
+# Vérifier la collection Qdrant
+docker exec -it qdrant curl http://localhost:6333/collections/obsidian_vault
 ```

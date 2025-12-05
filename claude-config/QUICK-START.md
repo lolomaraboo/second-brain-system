@@ -25,6 +25,11 @@ claude                 # Lance Claude Code
 /output-style project-manager
 /output-style general-assistant
 
+# Second Brain (dans Claude Code)
+/start                 # Charge contexte (Mem0 + Obsidian)
+/end                   # Sauvegarde contexte (auto-doc Phase 2)
+/wiki [note]           # Ajoute note au wiki Obsidian
+
 # Utilitaires
 sync-context           # Sync claude.md, gemini.md, etc.
 ai "question"          # Routeur intelligent AI

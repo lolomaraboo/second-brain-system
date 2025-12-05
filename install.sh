@@ -214,10 +214,10 @@ fi
 
 print_header "Step 5/7: Installing Python Packages"
 
-print_info "Installing mem0ai, requests, openai..."
-pip3 install -q --upgrade mem0ai requests openai 2>&1 | grep -v "already satisfied" || true
+print_info "Installing mem0ai, requests, openai, watchdog..."
+pip3 install -q --upgrade mem0ai requests openai watchdog 2>&1 | grep -v "already satisfied" || true
 
-if python3 -c "import mem0, requests, openai" 2>/dev/null; then
+if python3 -c "import mem0, requests, openai, watchdog" 2>/dev/null; then
     MEM0_VERSION=$(python3 -c "import mem0; print(mem0.__version__)" 2>/dev/null)
     print_success "Python packages installed (mem0 v$MEM0_VERSION)"
 else
@@ -300,10 +300,102 @@ fi
 print_success "Claude Code integration complete"
 
 # ============================================================================
-# STEP 7: Create Project Structure (Auto)
+# STEP 7: Install Filesystem Watcher (Auto) - Phase 2
 # ============================================================================
 
-print_header "Step 7/7: Setting Up Project Structure"
+print_header "Step 7/8: Installing Phase 2 - Obsidian Filesystem Watcher"
+
+# Get project root (where Memories/ vault is located)
+if [ -z "$PROJECT_ROOT" ]; then
+    # Try to detect project root from current directory
+    if [ -d "$(pwd)/Memories/vault" ]; then
+        PROJECT_ROOT="$(pwd)"
+    elif [ -d "$HOME/Documents/APP_HOME/CascadeProjects/windsurf-project/Memories/vault" ]; then
+        PROJECT_ROOT="$HOME/Documents/APP_HOME/CascadeProjects/windsurf-project"
+    else
+        print_warning "Cannot find Memories/vault directory"
+        read -p "Enter path to project root (where Memories/ is located): " PROJECT_ROOT
+    fi
+fi
+
+print_info "Project root: $PROJECT_ROOT"
+
+# Create logs directory
+mkdir -p "$PROJECT_ROOT/SecondBrain/logs"
+print_success "Created logs directory"
+
+# Copy filesystem watcher script
+if [ -f "scripts/obsidian_vault_watcher.py" ]; then
+    cp scripts/obsidian_vault_watcher.py "$PROJECT_ROOT/SecondBrain/scripts/"
+    chmod +x "$PROJECT_ROOT/SecondBrain/scripts/obsidian_vault_watcher.py"
+    print_success "Filesystem watcher installed"
+else
+    print_warning "obsidian_vault_watcher.py not found (skip watcher)"
+fi
+
+# Install LaunchAgent for 24/7 watcher
+if [ -f "$PROJECT_ROOT/SecondBrain/scripts/obsidian_vault_watcher.py" ]; then
+    PLIST_PATH="$HOME/Library/LaunchAgents/com.secondbrain.obsidian-watcher.plist"
+
+    cat > "$PLIST_PATH" << EOF
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.secondbrain.obsidian-watcher</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>/usr/bin/python3</string>
+        <string>$PROJECT_ROOT/SecondBrain/scripts/obsidian_vault_watcher.py</string>
+    </array>
+
+    <key>RunAtLoad</key>
+    <true/>
+
+    <key>KeepAlive</key>
+    <true/>
+
+    <key>StandardOutPath</key>
+    <string>$PROJECT_ROOT/SecondBrain/logs/obsidian-watcher.log</string>
+
+    <key>StandardErrorPath</key>
+    <string>$PROJECT_ROOT/SecondBrain/logs/obsidian-watcher.error.log</string>
+
+    <key>WorkingDirectory</key>
+    <string>$PROJECT_ROOT</string>
+
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>PATH</key>
+        <string>/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin</string>
+    </dict>
+</dict>
+</plist>
+EOF
+
+    # Load LaunchAgent
+    launchctl unload "$PLIST_PATH" 2>/dev/null || true
+    launchctl load "$PLIST_PATH" 2>/dev/null
+
+    sleep 2
+
+    # Check if running
+    if launchctl list | grep -q "com.secondbrain.obsidian-watcher"; then
+        print_success "Filesystem watcher service running (24/7)"
+    else
+        print_warning "Watcher installed but not running (check logs)"
+    fi
+else
+    print_info "Skipping LaunchAgent (watcher script not found)"
+fi
+
+# ============================================================================
+# STEP 8: Create Project Structure (Auto)
+# ============================================================================
+
+print_header "Step 8/8: Setting Up Project Structure"
 
 MEMORIES_DIR="$DEFAULT_MEMORIES_DIR"
 
@@ -347,14 +439,23 @@ echo -e "${BOLD}What's Running:${NC}"
 echo "  • Qdrant: ${BLUE}http://localhost:$QDRANT_PORT${NC}"
 echo "  • Memories: ${BLUE}$MEMORIES_DIR${NC}"
 echo "  • Config: ${BLUE}$CLAUDE_DIR${NC}"
+echo "  • Watcher: ${BLUE}Obsidian filesystem watcher (24/7)${NC}"
+echo ""
+echo -e "${BOLD}Phase 2 Features (Auto-Documentation):${NC}"
+echo "  • GPT-4o-mini analyzes mem0_save for documentable patterns"
+echo "  • Automatic suggestions with pre-generated drafts"
+echo "  • Filesystem watcher re-indexes Obsidian vault on .md changes"
+echo "  • Patterns: Bug, Decision, Config, Tool, Pattern, Migration"
 echo ""
 echo -e "${BOLD}Documentation:${NC}"
 echo "  • Complete guide: ${BLUE}docs/INSTALL.md${NC}"
-echo "  • Monitoring: ${BLUE}scripts/MONITORING.md${NC}"
 echo "  • Architecture: ${BLUE}README.md${NC}"
+echo "  • Phase 2 details: ${BLUE}Memories/vault/ideas/auto-doc-phase2.md${NC}"
 echo ""
 echo -e "${BOLD}Cost:${NC}"
-echo "  ~\$0.002 per 1000 memories (OpenAI embeddings)"
+echo "  • Embeddings: ~\$0.002 per 1000 memories"
+echo "  • Phase 2: ~\$0.58/month (100 mem0_save/day)"
+echo "  • Total: ~\$1/month for active usage"
 echo ""
 
 # Optional: Install monitoring
