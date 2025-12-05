@@ -102,6 +102,68 @@ def backup_memory_to_json(project_id: str, memory_data: dict):
     with open(json_file, 'w') as f:
         json.dump(memory_data, f, indent=2)
 
+def analyze_for_documentation(content: str, project_id: str) -> dict:
+    """
+    Analyze memory content to detect if it should be documented in Obsidian.
+    Uses GPT-4o-mini for intelligent pattern detection.
+
+    Returns:
+        dict with 'suggestion' key if documentable (confidence > 0.7), else None
+    """
+    if not openai_client:
+        return None
+
+    prompt = f"""Analyze this memory content and determine if it should be documented in Obsidian.
+
+Memory content:
+{content}
+
+Project: {project_id}
+
+Patterns to detect:
+1. Bug resolved (symptom + root cause + solution)
+2. Technical decision (choice + reasoning)
+3. Config/Secret (new ENV variable, API key setup - DO NOT include values)
+4. New tool (script/helper created)
+5. Reusable pattern (workaround, best practice, convention)
+6. Migration/Refactoring (architecture change, breaking change)
+
+If a pattern is detected and truly worth documenting (confidence > 0.7), return JSON:
+{{
+  "type": "bug|decision|config|tool|pattern|migration",
+  "confidence": 0.0-1.0,
+  "title": "Short descriptive title",
+  "suggested_path": "wiki/section/filename.md",
+  "draft_content": "# Title\\n\\n## Context\\n\\n[content based on memory]\\n\\n## Solution/Details\\n\\n[details]"
+}}
+
+If no significant pattern or confidence < 0.7, return null.
+
+Be strict: only suggest documentation for genuinely useful, reusable knowledge."""
+
+    try:
+        response = openai_client.chat.completions.create(
+            model="gpt-4o-mini",
+            messages=[{"role": "user", "content": prompt}],
+            temperature=0.3,
+            max_tokens=800,
+            response_format={"type": "json_object"}
+        )
+
+        result = json.loads(response.choices[0].message.content)
+
+        # Validate response
+        if result and isinstance(result, dict):
+            confidence = result.get("confidence", 0)
+            if confidence > 0.7:
+                return result
+
+        return None
+
+    except Exception as e:
+        print(f"⚠️  Documentation analysis error: {e}", file=sys.stderr)
+        return None
+
 def handle_initialize(id: Any, params: dict):
     """Handle initialize request"""
     send_result(id, {
@@ -266,7 +328,20 @@ def handle_tool_call(id: Any, params: dict):
                     "user_id": project_id
                 })
 
+            # Analyze for documentation (Phase 2)
+            doc_suggestion = analyze_for_documentation(memory_content, project_id)
+
+            # Base response
             content = f"Memory saved locally for project '{project_id}' ✅"
+
+            # Add suggestion if found
+            if doc_suggestion:
+                content += f"\n\n💡 Documentation suggestion detected:\n"
+                content += f"   Type: {doc_suggestion.get('type', 'unknown')}\n"
+                content += f"   Confidence: {doc_suggestion.get('confidence', 0):.0%}\n"
+                content += f"   Title: {doc_suggestion.get('title', 'N/A')}\n"
+                content += f"   Path: {doc_suggestion.get('suggested_path', 'N/A')}\n"
+                content += f"\n   [Draft ready - Claude Code will propose creation]"
 
         elif tool_name == "mem0_search":
             project_id = arguments.get("project_id")
